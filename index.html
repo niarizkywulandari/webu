@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Activities - Mahkota Tricom Unggul University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #879df7 0%, #7cf382 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: white;
+            animation: float 25s infinite;
+            border-radius: 50%;
+        }
+
+        .bg-animation span:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .bg-animation span:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .bg-animation span:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .bg-animation span:nth-child(6) { left: 60%; animation-delay: 10s; }
+        .bg-animation span:nth-child(7) { left: 70%; animation-delay: 12s; }
+        .bg-animation span:nth-child(8) { left: 80%; animation-delay: 14s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) scale(0);
+            }
+            50% {
+                transform: translateY(-100vh) scale(1);
+            }
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Homepage */
+        .homepage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logo-container {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: bounceIn 1s ease;
+        }
+
+        .logo-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    background: white;
+    padding: 20px;
+    border-radius: 50%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .homepage h1 {
+            color: rgb(14, 13, 13);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .homepage p {
+            color: rgba(11, 39, 13, 0.9);
+            font-size: 1.1rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease 0.5s;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Activities Page */
+        .activities-page {
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .back-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .activities-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .activities-header h1 {
+            color: rgb(14, 13, 13);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .activities-header p {
+            color: rgba(10, 10, 10, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .activity-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.activity-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #4facfe, #f093fb, #00f2fe);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.activity-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 0 35px rgba(79,172,254,0.8);
+}
+
+.activity-card:hover::before {
+    opacity: 1;
+}
+
+
+        .activity-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .activity-card.dance .activity-image {
+    background: linear-gradient(135deg, #570819, #db8a9c);
+}
+
+.activity-card.taekwondo .activity-image {
+    background: linear-gradient(135deg, #0a3963, #afd0f0);
+}
+
+.activity-card.tenis-meja .activity-image {
+    background: linear-gradient(135deg, #97720c, #e2cd88);
+}
+
+.activity-card.english-club .activity-image {
+    background: linear-gradient(135deg, #018388, #a3dfe4);
+}
+
+.activity-card.amigos-choir .activity-image {
+    background: linear-gradient(135deg, #580172, #bb96d4);
+}
+
+.activity-card.bumi-hijau .activity-image {
+    background: linear-gradient(135deg, #096e1f, #9ceca0);
+}
+
+
+        .activity-content {
+            padding: 25px;
+        }
+
+        .activity-content h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .activity-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Detail Page */
+        .detail-page {
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .detail-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .detail-header {
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .detail-header.taekwondo {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .detail-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .detail-content {
+            padding: 40px 30px;
+        }
+
+        .section {
+    background: #d3d8d8;
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+
+       .section h2 {
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+        .section h2::before {
+    content: '';
+    width: 6px;
+    height: 26px;
+    background: linear-gradient(180deg, #4facfe, #f5576c);   
+    border-radius: 4px;
+}
+
+
+        .section p, .section ul {
+            color: #000000;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section ul li {
+    padding: 12px 0;
+    font-size: 1rem;
+}
+
+.detail-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+        .section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .section ul li::before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.photo-gallery img {
+    width: 100%;
+    height: 180px;          /* KUNCI TINGGI */
+    object-fit: cover;     /* POTONG RAPI */
+    border-radius: 14px;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-gallery img:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 25px rgba(185, 212, 236, 0.7);
+}
+
+
+        .register-section {
+            background: linear-gradient(135deg, #6d8d74 0%, #9cbb9f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+             grid-column: 1 / -1;
+        }
+
+        .register-section h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .register-section h2::before {
+            display: none;
+        }
+
+        .register-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: white;
+            color: #667eea;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+           .logo-img {
+    width: 150px;
+    height: 150px;
+    padding: 15px;
+}
+
+            .homepage h1 {
+                font-size: 1.5rem;
+            }
+
+            .homepage p {
+                font-size: 1rem;
+            }
+
+            .activities-header h1 {
+                font-size: 2rem;
+            }
+
+            .detail-header h1 {
+                font-size: 2rem;
+            }
+        
+            .detail-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+     align-items: start;
+}
+
+           .photo-gallery img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-gallery img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(79,172,254,0.8);
+}
+
+
+}
+
+        .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    margin-top: 20px;
+}
+
+.hero p {
+    margin-top: 10px;
+}
+
+@media (min-width: 992px) {
+    .detail-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .photo-section {
+        grid-column: 1 / -1;
+    }
+
+    .register-section {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-box {
+    text-align: center;
+    color: white;
+}
+
+.loading-box h2 {
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.loading-bar {
+    width: 260px;
+    height: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.loading-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    animation: loading 2.5s linear forwards;
+}
+
+@keyframes loading {
+    to { width: 100%; }
+}
+
+/* ===== PAGE TRANSITION ===== */
+.page {
+    animation: pageFade 0.6s ease;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== RIPPLE EFFECT ===== */
+.activity-card .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background: rgba(255,255,255,0.6);
+    pointer-events: none;
+}
+
+    </style>
+</head>
+<body>
+    <div id="loading-screen">
+    <div class="loading-box">
+        <h2>Entering UMTU World...</h2>
+        <div class="loading-bar">
+            <span></span>
+        </div>
+    </div>
+</div>
+
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Homepage -->
+    <div class="page active" id="homepage">
+        <div class="homepage">
+                    <div class="hero">
+            <div class="logo-container" onclick="showPage('activities')">
+    <img src="logo-img/logo-umtu.png.jpg" alt="UMTU Logo" class="logo-img"></div>
+            </div>
+            <h1>Mahkota Tricom Unggul University</h1>
+            <p>Join us to develop your talents and interests!</p>
+        </div>
+    </div>
+
+    <!-- Activities Page -->
+    <div class="page" id="activities">
+        <div class="activities-page">
+            <button class="back-btn" onclick="showPage('homepage')">← Back</button>
+            
+            <div class="activities-header">
+                <h1>Student Activity Units</h1>
+                <p>Choose an activity that matches your interests and talents</p>
+            </div>
+
+            <div class="activities-grid">
+                <div class="activity-card dance" onclick="showPage('detail-dance')">
+                    <div class="activity-image">💃</div>
+                    <div class="activity-content">
+                        <h2>Modern Dance</h2>
+                        <p>Express yourself through movement! The Modern Dance club is a place to develop your creativity in contemporary dance with a fun and energetic atmosphere.</p>
+                    </div>
+                </div>
+
+                <div class="activity-card taekwondo" onclick="showPage('detail-taekwondo')">
+                    <div class="activity-image">🥋</div>
+                    <div class="activity-content">
+                        <h2>Taekwondo</h2>
+                        <p>Train your body and mind! The Taekwondo club teaches Korean martial arts that combine discipline, strength, and technique to build strong character.</p>
+                    </div>
+                </div>
+
+                <div class="activity-card tenis-meja" onclick="showPage('detail-tenis-meja')">
+    <div class="activity-image">🏓</div>
+    <div class="activity-content">
+        <h2>Table Tennis</h2>
+        <p>Improve your reflexes and focus through fast-paced table tennis training and competitions.</p>
+    </div>
+</div>
+
+<div class="activity-card english-club" onclick="showPage('detail-english-club')">
+    <div class="activity-image">🇬🇧</div>
+    <div class="activity-content">
+        <h2>English Club</h2>
+        <p>Practice English in a fun way through discussions, debates, games, and public speaking.</p>
+    </div>
+</div>
+
+<div class="activity-card amigos-choir" onclick="showPage('detail-amigos-choir')">
+    <div class="activity-image">🎶</div>
+    <div class="activity-content">
+        <h2>Amigos Choir</h2>
+        <p>Sing together, build harmony, and perform at campus and national events.</p>
+    </div>
+</div>
+
+<div class="activity-card bumi-hijau" onclick="showPage('detail-bumi-hijau')">
+    <div class="activity-image">🌱</div>
+    <div class="activity-content">
+        <h2>Bumi Hijau</h2>
+        <p>Care for the environment through green actions, education, and sustainability programs.</p>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Dance Detail Page -->
+    <div class="page" id="detail-dance">
+        <div class="detail-page">
+            <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+            
+            <div class="detail-container">
+                <div class="detail-header">
+                    <h1>💃 Modern Dance</h1>
+                    <p>Express Yourself Through Movement!</p>
+                </div>
+
+                <div class="detail-content">
+                    <div class="section">
+                        <h2>Welcome!</h2>
+                        <p>Hey Dancers! 🎉 Do you love moving to the rhythm of music? Or want to learn cool choreography? The Modern Dance club is the place for you! We are a big family full of energy, creativity, and togetherness. Here, you can express yourself freely, learn from basics to advanced levels, and perform at various campus events. Come join us and show off your talent!</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Practice Schedule</h2>
+                        <ul>
+                            <li>Monday: 4:00 PM - 6:00 PM</li>
+                            <li>Wednesday: 4:00 PM - 6:00 PM</li>
+                            <li>Friday: 4:00 PM - 6:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Practice Location</h2>
+                        <p>📍 UMTU Multipurpose Building, 2nd Floor - Dance Studio<br>
+                        Jl. Mahkota Raya No. 123, Tricom City</p>
+                    </div>
+
+                    <div class="section photo-section">
+                        <h2>Activity Documentation</h2>
+                       <div class="photo-gallery">
+    <img src="images/dance1.jpg" alt="Dance 1">
+    <img src="images/dance5.jpg" alt="Dance 2">
+    <img src="images/dance3.jpg" alt="Dance 3">
+    <img src="images/dance4.jpg" alt="Dance 4">
+</div>
+                    </div>
+
+                    <div class="register-section">
+                        <h2>Register Now!</h2>
+                        <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taekwondo Detail Page -->
+    <div class="page" id="detail-taekwondo">
+        <div class="detail-page">
+            <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+            
+            <div class="detail-container">
+                <div class="detail-header taekwondo">
+                    <h1>🥋 Taekwondo</h1>
+                    <p>Train Your Body and Mind!</p>
+                </div>
+
+                <div class="detail-content">
+                    <div class="section">
+                        <h2>Welcome!</h2>
+                        <p>Hello Future Taekwondoin! 🥋 Do you want to become stronger, more disciplined, and confident? The UMTU Taekwondo club is ready to train you! We don't just teach martial arts techniques, but also build strong character and mental strength. From white belt to black belt, we will guide you step by step. It's never too late to start! Come join the Taekwondo UMTU family and feel the transformation within yourself!</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Practice Schedule</h2>
+                        <ul>
+                            <li>Tuesday: 3:30 PM - 5:30 PM</li>
+                            <li>Thursday: 3:30 PM - 5:30 PM</li>
+                            <li>Saturday: 8:00 AM - 10:00 AM</li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Practice Location</h2>
+                        <p>📍 UMTU Sports Field - Taekwondo Dojang<br>
+                        Jl. Mahkota Raya No. 123, Tricom City</p>
+                    </div>
+
+                    <div class="section photo-section">
+                        <h2>Activity Documentation</h2>
+                         <div class="photo-gallery">
+    <img src="images/taekwondo1.jpg" alt="taekwondo 1">
+    <img src="images/taekwondo2.jpg" alt="taekwondo 2">
+    <img src="images/taekwondo3.jpg" alt="taekwondo 3">
+    <img src="images/taekwondo4.jpg" alt="taekwondo 4">
+</div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="register-section">
+                        <h2>Register Now!</h2>
+                        <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+
+                 <!-- Teni Detail Page -->
+                  <div class="page" id="detail-tenis-meja">
+    <div class="detail-page">
+        <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+
+        <div class="detail-container">
+            <div class="detail-header">
+                <h1>🏓 Table Tennis</h1>
+                <p>Fast, Fun, and Competitive!</p>
+            </div>
+
+            <div class="detail-content">
+                <div class="section">
+                    <h2>Welcome!</h2>
+                    <p>The Table Tennis club is the perfect place to train your reflexes, concentration, and strategy. Open for beginners and advanced players!</p>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Schedule</h2>
+                    <ul>
+                        <li>Tuesday: 4:00 PM - 6:00 PM</li>
+                        <li>Friday: 4:00 PM - 6:00 PM</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Location</h2>
+                    <p>📍 UMTU Sports Hall - Table Tennis Area</p>
+                </div>
+
+                <div class="section photo-section">
+                    <h2>Activity Documentation</h2>
+                       <div class="photo-gallery">
+    <img src="images/tenismeja1.jpg" alt="Tenis meja 1">
+    <img src="images/tenismeja2.jpg" alt="Tenis Meja 2">
+    <img src="images/tenismeja3.jpg" alt="Tenis Meja 3">
+    <img src="images/tenismeja4.jpg" alt="Tenis Meja 4">
+</div>
+                </div>
+
+                <div class="register-section">
+                    <h2>Register Now!</h2>
+                   <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+             <!-- english club Detail Page -->
+<div class="page" id="detail-english-club">
+    <div class="detail-page">
+        <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+
+        <div class="detail-container">
+            <div class="detail-header">
+                <h1>English Club</h1>
+                <p>Speak Confidently, Think Globally!</p>
+            </div>
+
+            <div class="detail-content">
+                <div class="section">
+                    <h2>Welcome!</h2>
+                    <p>English Club helps you improve speaking, listening, and confidence through fun activities like debates, games, and presentations.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Schedule</h2>
+                    <ul>
+                        <li>Wednesday: 4:00 PM - 6:00 PM</li>
+                        <li>Saturday: 9:00 AM - 11:00 AM</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Location</h2>
+                    <p>📍 UMTU Language Center, Building A</p>
+                </div>
+
+                <div class="section photo-section">
+                    <h2>Activity Documentation</h2>
+                      <div class="photo-gallery">
+    <img src="images/lesinggris1.jpg" alt="english club 1">
+    <img src="images/lesinggris2.jpg" alt="english club 2">
+    <img src="images/lesinggris3.jpg" alt="english club 3">
+    <img src="images/lesinggris4.jpg" alt="english club 4">
+</div>
+                </div>
+
+                <div class="register-section">
+                    <h2>Register Now!</h2>
+                   <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            <!-- amigos choir Detail Page --> 
+             <div class="page" id="detail-amigos-choir">
+    <div class="detail-page">
+        <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+
+        <div class="detail-container">
+            <div class="detail-header">
+                <h1>🎶 Amigos Choir</h1>
+                <p>Sing Together, Shine Together!</p>
+            </div>
+
+            <div class="detail-content">
+                <div class="section">
+                    <h2>Welcome!</h2>
+                    <p>Amigos Choir is a place to learn vocal techniques, harmony, and stage performance while building strong teamwork.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Schedule</h2>
+                    <ul>
+                        <li>Monday: 4:00 PM - 6:00 PM</li>
+                        <li>Thursday: 4:00 PM - 6:00 PM</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Practice Location</h2>
+                    <p>📍 UMTU Music Room, Building B</p>
+                </div>
+
+                <div class="section photo-section">
+                    <h2>Activity Documentation</h2>
+                       <div class="photo-gallery">
+    <img src="images/paduan1.jpg" alt="choir 1">
+    <img src="images/paduan2.jpg" alt="choir 2">
+    <img src="images/paduan3.jpg" alt="choir 3">
+    <img src="images/paduan4.jpg" alt="choir 4">
+</div>
+                </div>
+
+                <div class="register-section">
+                    <h2>Register Now!</h2>
+                   <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+              <!-- bumi hijau choir Detail Page -->
+<div class="page" id="detail-bumi-hijau">
+    <div class="detail-page">
+        <button class="back-btn" onclick="showPage('activities')">← Back to Activity List</button>
+
+        <div class="detail-container">
+            <div class="detail-header">
+                <h1>🌱 Bumi Hijau</h1>
+                <p>Love Nature, Save the Future!</p>
+            </div>
+
+            <div class="detail-content">
+                <div class="section">
+                    <h2>Welcome!</h2>
+                    <p>Bumi Hijau is an environmental club focused on conservation, eco-education, tree planting, and sustainable campus programs.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Activity Schedule</h2>
+                    <ul>
+                        <li>Saturday: Environmental Action</li>
+                        <li>Monthly: Tree Planting & Clean-Up</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Activity Location</h2>
+                    <p>📍 UMTU Campus Area & Community Locations</p>
+                </div>
+
+                <div class="section photo-section">
+                    <h2>Activity Documentation</h2>
+                       <div class="photo-gallery">
+    <img src="images/bumi1.jpg" alt="bumi 1">
+    <img src="images/bumi2.jpg" alt="bumi 2">
+    <img src="images/bumi3.jpg" alt="bumi 3">
+    <img src="images/bumi4.jpg" alt="bumi 4">
+</div>
+                </div>
+
+                <div class="register-section">
+                    <h2>Register Now!</h2>
+                    <form class="register-form" onsubmit="sendToWA(event)">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" id="nim" placeholder="Student ID" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="waUser" placeholder="WhatsApp Number" required>
+    </div>
+    <div class="form-group">
+        <textarea id="reason" placeholder="Why do you want to join this UKM?" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+</form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+function sendToWA(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const name = form.querySelector(".name").value;
+    const nim = form.querySelector(".nim").value;
+    const email = form.querySelector(".email").value;
+    const waUser = form.querySelector(".waUser").value;
+    const reason = form.querySelector(".reason").value;
+
+    const ukm = form.closest(".detail-page").querySelector(".detail-header h1").innerText;
+    const adminWA = "6281377305114"; // GANTI NOMOR ADMIN
+
+    const message = 
+`*PENDAFTAR UKM*
+${ukm}
+
+Nama: ${name}
+NIM: ${nim}
+Email: ${email}
+WA: ${waUser}
+
+Alasan:
+${reason}`;
+
+    const url = `https://wa.me/${adminWA}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+
+    form.reset();
+}
+
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("loading-screen").style.display = "none";
+    }, 2600);
+});
+
+ // ===== RIPPLE CLICK =====
+    card.addEventListener("click", e => {
+        const ripple = document.createElement("span");
+        ripple.classList.add("ripple");
+
+        const rect = card.getBoundingClientRect();
+        ripple.style.left = `${e.clientX - rect.left}px`;
+        ripple.style.top = `${e.clientY - rect.top}px`;
+
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    });
+
+
+    </script>
+</body>
+</html>
